@@ -1,0 +1,201 @@
+\section{Příklad 1}
+% Jako parametr zadejte skupinu (A-H)
+\prvniZadani{F}
+
+\subsection{Výpočet odporu $R_{ekv}$ a proudu I}
+
+\begin{figure}[H]
+  1) Zjednodušení sériově zapojených zdrojů: $ U = U_1 + U_2$   \newline
+  \newline
+  \newline
+  2) Zjednodušení paralelně zapojených rezistorů: $ R_{56} = \frac{R_5 \cdot R_6}{R_5 + R_6}$ \newline
+  \newline
+  \newline
+  3) Zjednodušení sériově zapojených rezistorů: $ R_{78} = R_7 + R_8$
+  \newline
+  \newline
+  
+  \begin{circuitikz}
+    \draw
+    (0,0) to[dcvsource, v^<=U](0,4)
+    (0,4) --                  (1,4)
+    (1,4) node[circ]{}        (1,4)
+    (1,4) --                  (1,2)
+    (1,2) to[R, l^=$R_2$]     (4,2)
+    (1,4) to[R, l^=$R_1$]     (4,4)
+    (4,4) to[R, l^=$R_3$]     (4,2)
+    (4,2) node[circ]{}        (4,2)
+    (4,2) to[R, l^=$R_4$]     (7,2)
+    (4,4) node[circ]{}        (4,4)
+    (7,4)                     (7,4)
+    (4,4) --                  (7,4)
+    (7,4) to[R, l^=$R_{56}$]     (7,2)
+    (7,2) node[circ]{}        (7,2)
+    (7,2) --                  (7,0)
+    (0,0) --                  (1,0)
+    (1,0) to[R, l^=$R_{78}$]     (4,0)
+    (4,0) --                  (7,0)
+    ;
+  \end{circuitikz}
+\end{figure}
+
+\begin{figure}[H]
+  Transfigurace trojúhelník na hvězdu
+  \newline
+  \newline
+  
+  \begin{circuitikz}
+    \draw
+    (0,0) to[dcvsource, v^<=U](0,3)
+    (0,3) to[R, l^=$R_A$]     (2,3)
+    (2,3) node[circ]{}        (2,3)
+    (2,3) to[R, l^=$R_B$]     (4,4)
+    (2,3) to[R, l^=$R_C$]     (4,2)
+    (4,2) to[R, l^=$R_4$]     (7,2)
+    (4,4) to[R, l^=$R_{56}$] (7,4)
+    (7,4) --                  (7,2)
+    (7,2) node[circ]{}        (7,2)
+    (7,2) --                  (7,0)
+    (0,0) --                  (1,0)
+    (1,0) to[R, l^=$R_{78}$]  (4,0)
+    (4,0) --                  (7,0)
+    ;
+  \end{circuitikz}
+  
+  
+  \begin{equation*}
+    \begin{aligned}
+      R_A & = \frac{R_1 \cdot R_2}{R_1 + R_2 + R_3} \\
+      R_B & = \frac{R_1 \cdot R_3}{R_1 + R_2 + R_3} \\
+      R_C & = \frac{R_2 \cdot R_3}{R_1 + R_2 + R_3}
+    \end{aligned}
+  \end{equation*}
+  
+\end{figure}
+
+\begin{figure}[H]
+  Zjednodušení sériově zapojených rezistorů: $R_{B56} = R_B + R_{56}$, $R_{C4} = R_C + R_4$
+  \newline
+  \newline
+  
+  \begin{circuitikz}
+    \draw
+    (0,0) to[dcvsource, v^<=U](0,3)
+    (0,3) to[R, l^=$R_A$]     (3,3)
+    (3,3) node[circ]{}        (3,3)
+    (3,2) to[R, l^=$R_{C4}$]  (6,2)
+    (3,4) to[R, l^=$R_{B56}$](6,4)
+    (3,2) --                  (3,4)
+    (6,4) --                  (6,2)
+    (6,2) node[circ]{}        (6,2)
+    (6,2) --                  (6,0)
+    (0,0) to[R, l^=$R_{78}$]    (3,0)
+    (3,0) --                  (6,0)
+    ;
+  \end{circuitikz}
+  
+  
+\end{figure}
+
+\begin{figure}[H]
+  Zjednodušení paralelně zapojených rezistorů: $R_{B56C4} = \frac{R_{B56} \cdot R_{C4}}{R_{B56} + R_{C4}}$
+  \newline
+  \newline
+  
+  \begin{circuitikz}
+    \draw
+    (0,0) to[dcvsource, v^<=U]  (0,3)
+    (0,3) to[R, l^=$R_A$]       (3,3)
+    (3,3) to[R, l^=$R_{B56C4}$] (6,3)
+    (6,3) --                    (6,2)
+    (6,2) --                    (6,0)
+    (0,0) to[R, l^=$R_{78}$]    (3,0)
+    (3,0) --                    (6,0)
+    ;
+  \end{circuitikz}
+  
+  
+\end{figure}
+
+\begin{figure}[H]
+  Zjednodušení paralelně zapojených rezistorů: $R_{ekv} = R_A + R_{B56C4} + R_{78}$
+  \newline
+  \newline
+  
+  \begin{circuitikz}
+    \draw
+    (0,0) to[dcvsource, v^<=U]  (0,3)
+    (0,0) --                    (3,0)
+    (3,3) to[R, l^=$R_{ekv}$]   (3,0)
+    (0,3) --                    (3,3)
+    (3,3) --                    (0,3)
+    ;
+  \end{circuitikz}
+
+  Výpočet celkového proudu v obvodu
+  $$ I = \frac{U}{R_{ekv}} $$
+  
+\end{figure}
+
+\subsection{Výpočet $U_{R2}$ a $I_{R2}$}
+\begin{figure}[H]
+  Zpětné dopočítání proudu a napětí $R_2$
+  \newline
+  \newline
+  
+  \begin{circuitikz}
+    \draw
+    (0,0) to[dcvsource, v^<=U](0,4)
+    (0,4) --                  (1,4)
+    (1,4) node[circ]{}        (1,4)
+    (1,4) --                  (1,2)
+    (1,2) to[R, l^=$R_2$]     (4,2)
+    (1,4) to[R, l^=$R_1$]     (4,4)
+    (4,4) to[R, l^=$R_3$]     (4,2)
+    (4,2) node[circ]{}        (4,2)
+    (4,2) to[R, l^=$R_4$]     (7,2)
+    (4,4) node[circ]{}        (4,4)
+    (7,4)                     (7,4)
+    (4,4) --                  (7,4)
+    (7,4) to[R, l^=$R_{56}$]     (7,2)
+    (7,2) node[circ]{}        (7,2)
+    (7,2) --                  (7,0)
+    (0,0) --                  (1,0)
+    (1,0) to[R, l^=$R_{78}$]     (4,0)
+    (4,0) --                  (7,0)
+    ;
+  \end{circuitikz}
+
+  Napřed vypočítáme napětí $U_{B56C4}$ a $U_{78}$. Poté proud ve spodní větvi $I_{C4}$. Díky tomuto proudu si můžeme dopočítat napětí $U_{R4}$ Jako poslední krok dosadíme do $U_{R2} = U - U_{R4} - U_{78}$. \newline
+  \newline
+  V poslední řadě dopočítáme proud $I_{R2} = \frac{U_{R2}}{R_2}$. 
+  
+\end{figure}
+
+\subsection{Dosazení}
+\begin{figure}[H]
+
+  \begin{equation*}
+    \begin{aligned}
+      U          & = U_1 + U_2 = 125 + 65 = 190V                                                                     \\
+      R_{56}     & = \frac{R_5 \cdot R_6}{R_5 + R_6} = \frac{300 \cdot 800}{300 + 800} = 218.1818 \SI{}{\ohm}        \\
+      R_{78}     & = R_7 + R_8 = 330 + 250 = 580 \SI{}{\ohm}                                                         \\
+      R_A        & = \frac{R_1 \cdot R_2}{R_1 + R_2 + R_3} = \frac{510 \cdot 500}{510 + 500 + 550} = 163.4615\SI{}{\ohm}                                                                                                         \\
+      R_B        & = \frac{R_1 \cdot R_3}{R_1 + R_2 + R_3} = \frac{510 \cdot 550}{510 + 500 + 550} = 179.8077\SI{}    {\ohm}                                                                                                         \\
+      R_C        & = \frac{R_2 \cdot R_3}{R_1 + R_2 + R_3} = \frac{500 \cdot 550}{510 + 500 + 550} = 176.2821\SI{}    {\ohm}                                                                                                         \\
+      R_{B56}    & = R_B + R_{56} = 179.8077 + 218.1818 = 397.9895 \SI{}{\ohm}                                       \\
+      R_{C4}     & = R_C + R_4 = 176.2821 + 250 = 426.2821 \SI{}{\ohm}                                               \\
+      R_{B56C4}  & = \frac{R_{B56} \cdot R_{C4}}{R_{B56} + R_{C4}} = \frac{397.9895 \cdot 426.2821}{397.9895 + 426.2821} = 205.8251 \SI{}{\ohm}                                                                               \\
+      R_{ekv}    & = R_A + R_{B56C4} + R_{78} = 163.4615 + 205.8251 + 580 = 949.2866 \SI{}{\ohm}                     \\
+      I          & = \frac{U}{R_{ekv}} = \frac{190}{949.2866} = 0.2002A                                              \\
+      U_{B56C4}  & = R_{B56C4} \cdot I = 205.8251 \cdot 0.2002 = 41.1960V                                            \\
+      U_{78}     & = R_{78} \cdot I = 580 \cdot 0.2002 = 116.0872V                                                   \\
+      U_{RA}     & = R_A \cdot I = 163.4615 \cdot 0.2002 = 32.7169V                                                 \\ 
+      I_{B56}    & = \frac{U_{B56C4}}{R_{B56}} = \frac{205.8251}{397.9895} = 0.1035A                                 \\
+      I_{C4}     & = \frac{U_{B56C4}}{R_{C4}} = \frac{205.8251}{426.2821} = 0.0966A                                  \\
+      U_{R4}     & = I_{C4} \cdot R_4 = 0.0966 \cdot 250 = 24.1600V                                                  \\
+      U_{R2}     & = U - U_{R4} - U_{78} = 190 - 24.1600 - 116.0872 = \underline{\underline{49.7528V}}               \\
+      I_{R2}     & = \frac{U_{R2}}{R_2} = \frac{49.7528}{500} = \underline{\underline{0.0995A}}
+    \end{aligned}
+  \end{equation*}
+\end{figure}

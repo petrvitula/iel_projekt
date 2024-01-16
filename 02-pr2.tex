@@ -1,0 +1,124 @@
+\section{Příklad 2}
+% Jako parametr zadejte skupinu (A-H)
+\druhyZadani{B}
+
+\subsection{Výpočet $R_{i}$}
+\begin{figure}[H]
+    V obvodu vyzkratujeme zdroj a odstraníme rezistor $R_6$. Následně spočítame napětí mezi svorkami, kde byl původně rezistor $R_6$. 
+ 
+
+    \begin{circuitikz}
+        \draw
+        (0,0) -- (0,4)
+        (0,4) to[R, l=$R_1$] (3,4)
+        (6,4) to[R, l=$R_4$] (6,2)
+        (3,2) to[R, l=$R_3$] (3,0)
+        (3,4) to[R, l=$R_2$] (3,2)
+        (6,2) to[R, l=$R_5$] (6,0)
+        (0,0) -- (3,0)
+        (3,4) -- (6,4)
+        (3,0) -- (6,0)
+        (3,4) node[ocirc]{} (3,4)
+        (6,0) node[ocirc]{} (6,0)
+        (6,2) node[ocirc]{} (6,2)
+        (3,0) node[ocirc]{} (3,0)
+        {[anchor=west] (6,0) node{B} (6,2) node{A}}
+        ;
+    \end{circuitikz}
+
+    \begin{equation*}
+    \begin{aligned}
+      R_{23}  & = R_2 + R_3                                   \\
+      R_{123} & = \frac{R_1 \cdot R_{23}}{R_1 + R_{23}}       \\
+      R_{1234}& = R_{123} + R_4                               \\
+      R_{12345}& = \frac{R_{1234} \cdot R_5}{R_{1234} + R_5}  \\
+      R_i & = R_{12345}
+    \end{aligned}
+  \end{equation*}
+\end{figure}
+
+\newpage
+
+
+\subsection{Výpočet $U_i$}
+\begin{figure}[H]
+    Zahájíme výpočet $R_{ekv}$ pomocí kterého budeme schopni se dále dopočítat k $I_x$ a $U_i$.
+
+    \begin{circuitikz}
+        \draw
+        (0,0) to[dcvsource, v<=$U$, , i=$I_x$](0,4)
+        (0,4) to[R, l=$R_1$] (3,4)
+        (6,4) to[R, l=$R_4$] (6,2)
+        (3,2) to[R, l=$R_3$] (3,0)
+        (3,4) to[R, l=$R_2$] (3,2)
+        (6,2) to[R, l=$R_5$, v=$U_i$] (6,0)
+        (0,0) -- (3,0)
+        (3,4) -- (6,4)
+        (3,0) -- (6,0)
+        (3,4) node[ocirc]{} (3,4)
+        (6,0) node[ocirc]{} (6,0)
+        (6,2) node[ocirc]{} (6,2)
+        (3,0) node[ocirc]{} (3,0)
+        {[anchor=west] (6,0) node{B} (6,2) node{A}}
+        ;
+    \end{circuitikz}
+
+    \begin{equation*}
+        \begin{aligned}
+             R_{45} & = R_4 + R_5                                                 \\
+             R_{2345} & = \frac{R_{23} \cdot R_{45}}{R_{23} + R_{45}}             \\
+             R_{ekv} & = R_1 + R_{2345}                                           \\
+             I_x     & = \frac{U}{R_{ekv}}                                        \\
+             U_{2345} &  = U - U_{R1} = U - (R_1 \cdot I_x)                       \\
+             I_{45} & = \frac{U_{2345}}{R_{45}}                                   \\
+             U_i     & = I_{45} \cdot R_5
+        \end{aligned}
+    \end{equation*}
+
+\end{figure}
+
+\subsection{Výpočet proudu a napětí na $R_6$}
+\begin{figure}[H]
+    Máme hodnoty $U_i$ a $R_i$, takže můžeme podle Ohmova zákona snadno spočítat $I_{R1}$ a $U_{R1}$.
+    
+  \begin{circuitikz}
+        \draw
+        (0,0) to[dcvsource, v<=$U_i$](0,3)
+        (0,3) to[R, l=$R_i$] (3,3)
+        (3,3) to[R, l=$R_6$, i=$I_{R6}$, v=$U_{R6}$] (3,0)
+        (0,0) -- (3,0)
+        ;
+  \end{circuitikz}
+
+  
+  \begin{equation*}
+        \begin{aligned}
+             I_{R6} & = \frac{U_i}{R_i + R_6} \\
+             U_{R6} & = R_6 \cdot I_{R6}
+        \end{aligned}
+  \end{equation*}
+\end{figure}
+
+\newpage
+
+\subsection{Dosazení}
+\begin{figure}[H]
+  \begin{equation*}
+    \begin{aligned}
+         R_{23}  & = R_2 + R_3 = 310 + 610 = 920 \SI{}{\ohm}                                \\
+         R_{123}  & = \frac{R_1 \cdot R_{23}}{R_1 + R_{23}} = \frac{50 \cdot 920}{50 + 920} = \frac{46000}{970} = 47.4227 \SI{}{\ohm}                                                            \\
+         R_{1234}  & = R_{123} + R_4 = 47.4227 + 220 = 267.4227 \SI{}{\ohm}                     \\
+         R_{12345}  & = \frac{R_{1234} \cdot R_5}{R_{1234} + R_5} = \frac{267.4227 \cdot 570}{267.4227 + 570} = \frac{152430,939}{837.4227} = 182.0239 \SI{}{\ohm}                                 \\
+         R_i &  = 182.0239 \SI{}{\ohm}                                                                 \\
+         R_{45} & = R_4 + R_5 = 220 + 570 = 790\SI{}{\ohm}                                               \\
+         R_{2345} & = \frac{R_{23} \cdot R_{45}}{R_{23} + R_{45}} = \frac{920 \cdot 790}{920 + 790} = \frac{726800}{1710} = 425.0292 \SI{}{\ohm}                                                  \\
+         R_{ekv} & = R_1 + R_{2345} = 50 + 25.0292 = 475.0292 \SI{}{\ohm}                           \\
+         I_x & = \frac{U}{R_{ekv}} = \frac{100}{475.0292} = 0.2105 A                                \\
+         U_{2345} & = U - (R_1 \cdot I_x) = 100 - (50 \cdot 0.2105) = 89.4743 V                        \\
+         I_{45} & = \frac{U_{2345}}{R_{45}} = \frac{89.4743}{790} = 0.1133 A                            \\
+         U_i & = I_{45} \cdot R_5 = 0.1133 \cdot 570 = 64.5574 V                                         \\
+         I_{R6} & = \frac{U_i}{R_i + R_6} = \frac{64.5574}{182.0239 + 100} = \underline{\underline{0.2289 A}}      \\
+         U_{R6} & = R_6 \cdot I_{R6} = 100 \cdot 0.2289 = \underline{\underline{22.8908 V}}             \\
+    \end{aligned}
+  \end{equation*}
+\end{figure}
